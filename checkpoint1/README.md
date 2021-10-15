@@ -7,6 +7,10 @@ Relational Analytics:
 Below, we list the questions we were interested in and the queries used to obtain them. We provide brief 
 commentary on the findings. A full discussion of the findings is saved as a pdf titled findings. 
 
+These queries can be run using the CPDB database and DataGrip as long as you have an active
+connection to the public database. The sql document in the src directory can be directly
+uploaded. 
+
 1. What percentage of officers has at least one drug/alcohol abuse allegation?
 
 --Pulls category ids under drug/alcohol abuse and 08J and 024 since these are drug/alcohol related
