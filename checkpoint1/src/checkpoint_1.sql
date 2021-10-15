@@ -88,7 +88,7 @@ WHERE data_officerallegation.allegation_category_id NOT IN
 
 --2. Are drug/alcohol abuse allegations more likely to be made against on or off duty officers?
 
---1169 officers with these allegations while on duty (1578 total regardless of duty status) 
+--1169 officers with these allegations while on duty (1578 total regardless of duty status)
 SELECT DISTINCT officer_id
 FROM data_officerallegation
 WHERE data_officerallegation.allegation_category_id IN
@@ -98,7 +98,7 @@ WHERE data_officerallegation.allegation_category_id IN
     OR data_allegationcategory.category_code IN ('08J', '024'))
     AND data_allegationcategory.on_duty = True);
 
---1378 allegations in total for them on duty
+--1378 officers with drug and alcohol abuse allegations while on duty (includes )
 SELECT officer_id
 FROM data_officerallegation
 WHERE data_officerallegation.allegation_category_id IN
@@ -125,7 +125,9 @@ WHERE data_officerallegation.allegation_category_id IN
     WHERE data_allegationcategory.category = 'Medical'
     OR data_allegationcategory.category_code IN ('003', '003A', '003B', '003C', '003D', '003E'));
 
--- 4.Are there differences in officer salary (+$1012.55) and/or distribution of awards (1 less honorable mention) among police with and without drug/alcohol abuse allegations and other medical allegations?
+-- 4.Are there differences in officer salary and/or distribution of awards (1 less honorable mention) among police with and without drug/alcohol abuse allegations and other medical allegations?
+
+--$1,012.55 higher pay among those with these allegations versus those without
 SELECT
 (SELECT avg(salary)
 FROM data_salary
@@ -138,6 +140,7 @@ WHERE officer_id IN
      WHERE data_allegationcategory.category = 'Drug / Alcohol Abuse' OR data_allegationcategory.category = 'Medical' OR data_allegationcategory.category_code IN ('08J', '024', '003', '003A', '003B', '003C', '003D', '003E'))))
      - (SELECT avg(salary) FROM data_salary WHERE officer_id IN (SELECT id from data_officer)) AS DIFFERENCE
 
+--Those without these allegations
 SELECT
 (SELECT avg(honorable_mention_count)
 FROM data_officer
@@ -150,7 +153,9 @@ WHERE id IN
     WHERE data_allegationcategory.category = 'Drug / Alcohol Abuse' OR data_allegationcategory.category = 'Medical' OR data_allegationcategory.category_code IN ('08J', '024', '003', '003A', '003B', '003C', '003D', '003E'))))
     - (SELECT avg(honorable_mention_count) FROM data_officer WHERE id IN (SELECT id from data_officer)) AS DIFFERENCE
 
--- 5. Among officers with drug/alcohol abuse allegations, what is the average amount of time they have been on the force? = 20.290 years
+-- 5. Among officers with drug/alcohol abuse allegations, what is the average amount of time they have been on the force?
+
+--20.290 years for those with drug/alcohol abuse allegations
 SELECT AVG(EXTRACT(YEAR FROM resignation_date) - EXTRACT(YEAR FROM appointed_date))
 FROM data_officer
 WHERE id IN
@@ -163,8 +168,7 @@ WHERE id IN
            OR data_allegationcategory.category_code
                   IN ('08J', '024')));
 
-/* Officers without drug/alcohol abuse allegations? = 24.931 */
-
+--Officers without drug/alcohol abuse allegations? = 24.931
 SELECT AVG(EXTRACT(YEAR FROM resignation_date) - EXTRACT(YEAR FROM appointed_date))
 FROM data_officer
 WHERE id NOT IN
