@@ -13,7 +13,7 @@ uploaded.
 
 1. What percentage of officers has at least one drug/alcohol abuse allegation?
 
---Pulls category ids under drug/alcohol abuse and 08J and 024 since these are drug/alcohol related \n
+--Pulls category ids under drug/alcohol abuse and 08J and 024 since these are drug/alcohol related
 SELECT id
 FROM data_allegationcategory
 WHERE data_allegationcategory.category = 'Drug / Alcohol Abuse'
